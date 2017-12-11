@@ -177,13 +177,13 @@ int CRT_colorSchemes[LAST_COLORSCHEME][LAST_COLORELEMENT] = {
    [COLORSCHEME_DEFAULT] = {
       [RESET_COLOR] = ColorPair(White,Black),
       [DEFAULT_COLOR] = ColorPair(White,Black),
-      [FUNCTION_BAR] = ColorPair(Black,Cyan),
+      [FUNCTION_BAR] = ColorPair(Black,Red),
       [FUNCTION_KEY] = ColorPair(White,Black),
-      [PANEL_HEADER_FOCUS] = ColorPair(Black,Green),
-      [PANEL_HEADER_UNFOCUS] = ColorPair(Black,Green),
-      [PANEL_SELECTION_FOCUS] = ColorPair(Black,Cyan),
+      [PANEL_HEADER_FOCUS] = ColorPair(Red,Black),
+      [PANEL_HEADER_UNFOCUS] = ColorPair(Black,White),
+      [PANEL_SELECTION_FOCUS] = ColorPair(Black,White),
       [PANEL_SELECTION_FOLLOW] = ColorPair(Black,Yellow),
-      [PANEL_SELECTION_UNFOCUS] = ColorPair(Black,White),
+      [PANEL_SELECTION_UNFOCUS] = ColorPair(Black,Red),
       [FAILED_SEARCH] = ColorPair(Red,Cyan),
       [UPTIME] = A_BOLD | ColorPair(Cyan,Black),
       [BATTERY] = A_BOLD | ColorPair(Cyan,Black),
@@ -193,7 +193,7 @@ int CRT_colorSchemes[LAST_COLORSCHEME][LAST_COLORELEMENT] = {
       [LED_COLOR] = ColorPair(Green,Black),
       [TASKS_RUNNING] = A_BOLD | ColorPair(Green,Black),
       [PROCESS] = A_NORMAL,
-      [PROCESS_SHADOW] = A_BOLD | ColorPairGrayBlack,
+      [PROCESS_SHADOW] = A_BOLD | ColorPair(Green,Black),
       [PROCESS_TAG] = A_BOLD | ColorPair(Yellow,Black),
       [PROCESS_MEGABYTES] = ColorPair(Cyan,Black),
       [PROCESS_BASENAME] = A_BOLD | ColorPair(Cyan,Black),
@@ -205,7 +205,7 @@ int CRT_colorSchemes[LAST_COLORSCHEME][LAST_COLORELEMENT] = {
       [PROCESS_THREAD] = ColorPair(Green,Black),
       [PROCESS_THREAD_BASENAME] = A_BOLD | ColorPair(Green,Black),
       [BAR_BORDER] = A_BOLD,
-      [BAR_SHADOW] = A_BOLD | ColorPairGrayBlack,
+      [BAR_SHADOW] = A_BOLD | ColorPair(Green,Black),
       [SWAP] = ColorPair(Red,Black),
       [GRAPH_1] = A_BOLD | ColorPair(Cyan,Black),
       [GRAPH_2] = ColorPair(Cyan,Black),
@@ -604,12 +604,12 @@ void CRT_init(int delay, int colorScheme) {
    }
    CRT_colors = CRT_colorSchemes[colorScheme];
    CRT_colorScheme = colorScheme;
-   
+
    for (int i = 0; i < LAST_COLORELEMENT; i++) {
       unsigned int color = CRT_colorSchemes[COLORSCHEME_DEFAULT][i];
       CRT_colorSchemes[COLORSCHEME_BROKENGRAY][i] = color == (A_BOLD | ColorPairGrayBlack) ? ColorPair(White,Black) : color;
    }
-   
+
    halfdelay(CRT_delay);
    nonl();
    intrflush(stdscr, false);
@@ -714,16 +714,14 @@ void CRT_enableDelay() {
 
 void CRT_setColors(int colorScheme) {
    CRT_colorScheme = colorScheme;
-
-   for (int i = 0; i < 8; i++) {
-      for (int j = 0; j < 8; j++) {
-         if (ColorIndex(i,j) != ColorPairGrayBlack) {
-            int bg = (colorScheme != COLORSCHEME_BLACKNIGHT)
-                     ? (j==0 ? -1 : j)
-                     : j;
-            init_pair(ColorIndex(i,j), i, bg);
-         }
-      }
+   if (colorScheme == COLORSCHEME_BLACKNIGHT) {
+      for (int i = 0; i < 8; i++)
+         for (int j = 0; j < 8; j++)
+            init_pair((7-i)*8+j, i, j);
+   } else {
+      for (int i = 0; i < 8; i++)
+         for (int j = 0; j < 8; j++)
+            init_pair((7-i)*8+j, i, (j==0?-1:j));
    }
 
    int grayBlackFg = COLORS > 8 ? 8 : 0;

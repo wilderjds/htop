@@ -65,7 +65,7 @@ typedef struct MeterClass_ {
 struct Meter_ {
    Object super;
    Meter_Draw draw;
-   
+
    char* caption;
    int mode;
    int param;
@@ -124,6 +124,7 @@ ListItem* Meter_toListItem(Meter* this, bool moving);
 /* ---------- TextMeterMode ---------- */
 
 /* ---------- BarMeterMode ---------- */
+
 
 /* ---------- GraphMeterMode ---------- */
 
