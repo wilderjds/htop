@@ -273,8 +273,8 @@ static void BarMeterMode_draw(Meter* this, int x, int y, int w) {
    x += captionLen;
    w -= captionLen;
    attrset(CRT_colors[BAR_BORDER]);
-   mvaddch(y, x, '[');
-   mvaddch(y, x + w, ']');
+   mvaddch(y, x, '|');
+   mvaddch(y, x + w, '|');
 
    w--;
    x++;
