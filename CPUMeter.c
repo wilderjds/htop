@@ -20,9 +20,9 @@ in the source distribution for its full text.
 #include "Meter.h"
 
 typedef enum {
-   CPU_METER_NICE = 0,
+   CPU_METER_KERNEL = 0,
    CPU_METER_NORMAL = 1,
-   CPU_METER_KERNEL = 2,
+   CPU_METER_NICE = 2,
    CPU_METER_IRQ = 3,
    CPU_METER_SOFTIRQ = 4,
    CPU_METER_STEAL = 5,
@@ -34,7 +34,7 @@ typedef enum {
 }*/
 
 int CPUMeter_attributes[] = {
-   CPU_NICE, CPU_NORMAL, CPU_KERNEL, CPU_IRQ, CPU_SOFTIRQ, CPU_STEAL, CPU_GUEST, CPU_IOWAIT
+   CPU_KERNEL, CPU_NORMAL, CPU_NICE,  CPU_IRQ, CPU_SOFTIRQ, CPU_STEAL, CPU_GUEST, CPU_IOWAIT
 };
 
 #ifndef MIN

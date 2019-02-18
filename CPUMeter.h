@@ -12,9 +12,9 @@ in the source distribution for its full text.
 #include "Meter.h"
 
 typedef enum {
-   CPU_METER_NICE = 0,
+   CPU_METER_KERNEL = 0,
    CPU_METER_NORMAL = 1,
-   CPU_METER_KERNEL = 2,
+   CPU_METER_NICE = 2,
    CPU_METER_IRQ = 3,
    CPU_METER_SOFTIRQ = 4,
    CPU_METER_STEAL = 5,
