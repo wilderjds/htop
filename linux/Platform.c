@@ -185,8 +185,8 @@ double Platform_setCPUValues(Meter* this, int cpu) {
          percent = v[0]+v[1]+v[2]+v[3]+v[4];
       }
    } else {
-      v[2] = cpuData->systemAllPeriod / total * 100.0;
-      v[3] = (cpuData->stealPeriod + cpuData->guestPeriod) / total * 100.0;
+      v[CPU_METER_KERNEL] = cpuData->systemAllPeriod / total * 100.0;
+      v[CPU_METER_IRQ] = (cpuData->stealPeriod + cpuData->guestPeriod) / total * 100.0;
       Meter_setItems(this, 4);
       percent = v[0]+v[1]+v[2]+v[3];
    }
